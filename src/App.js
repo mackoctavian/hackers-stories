@@ -27,6 +27,14 @@ function App() {
       <input id='search' type='text'></input>
 
       <hr></hr>
+      <List />
+    </div>
+  )
+}
+
+function List() {
+  return (
+    <div>
       {
         list.map(function(item){
           return <div key={item.objectID}>
