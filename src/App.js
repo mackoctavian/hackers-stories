@@ -15,16 +15,19 @@ const list = [
     author: 'Dan Abramov, Andrew Clark',
     num_comments: 3,
     points: 4,
-    objectID:0,
+    objectID:1,
   },
 ];
 
 function App() {
+  const handleChange = event => {
+    console.log(event)
+  }
   return (
     <div>
       <h1>My Hackers Stories</h1>
       <label htmlFor='search'>Search: </label>
-      <input id='search' type='text'></input>
+      <input id='search' type='text' onChange={handleChange}></input>
 
       <hr></hr>
       <List />
