@@ -23,14 +23,17 @@ function App() {
     },
   ];
 
+  const [searchTerm, setSearchTearm] = React.useState('');
+
   const handleChange = event => {
-    console.log(event)
+    setSearchTearm(event.target.value);
   }
   return (
     <div>
       <h1>My Hackers Stories</h1>
       <label htmlFor='search'>Search: </label>
       <input id='search' type='text' onChange={handleChange}></input>
+      <p>Searching for <strong>{searchTerm}</strong></p>
 
       <hr></hr>
       <List list={stories}/>
