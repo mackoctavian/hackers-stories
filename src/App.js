@@ -23,18 +23,14 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTearm] = React.useState('');
-
-  const handleChange = event => {
-    setSearchTearm(event.target.value);
+  const handleSearch = event => {
+    console.log(event.target.value)
   }
+  
   return (
     <div>
       <h1>My Hackers Stories</h1>
-      <label htmlFor='search'>Search: </label>
-      <input id='search' type='text' onChange={handleChange}></input>
-      <p>Searching for <strong>{searchTerm}</strong></p>
-
+      <Search onSearch={handleSearch}/>
       <hr></hr>
       <List list={stories}/>
     </div>
@@ -55,6 +51,23 @@ function List(props) {
           )
         )
       }
+    </div>
+  )
+}
+
+const Search = props => {
+  
+  const [searchTerm, setSearchTearm] = React.useState('');
+
+  const handleChange = event => {
+    setSearchTearm(event.target.value);
+    props.onSearch(event)
+  }
+  return (
+    <div>
+    <label htmlFor='search'>Search: </label>
+    <input id='search' type='text' onChange={handleChange}></input>
+    <p>Searching for <strong>{searchTerm}</strong></p>
     </div>
   )
 }
