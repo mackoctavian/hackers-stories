@@ -22,17 +22,20 @@ function App() {
       objectID:1,
     },
   ];
-
+  
+  const [searchTerm, setSearchTearm] = React.useState('')
   const handleSearch = event => {
-    console.log(event.target.value)
+    setSearchTearm(event.target.value)
   }
   
+  const searchedStories = stories.filter(story => story.title.includes(searchTerm.toLocaleLowerCase()))
+
   return (
     <div>
       <h1>My Hackers Stories</h1>
       <Search onSearch={handleSearch}/>
       <hr></hr>
-      <List list={stories}/>
+      <List list={searchedStories}/>
     </div>
   )
 }
@@ -56,18 +59,11 @@ function List(props) {
 }
 
 const Search = props => {
-  
-  const [searchTerm, setSearchTearm] = React.useState('');
 
-  const handleChange = event => {
-    setSearchTearm(event.target.value);
-    props.onSearch(event)
-  }
   return (
     <div>
     <label htmlFor='search'>Search: </label>
-    <input id='search' type='text' onChange={handleChange}></input>
-    <p>Searching for <strong>{searchTerm}</strong></p>
+    <input id='search' type='text' onChange={props.onSearch}></input>
     </div>
   )
 }
