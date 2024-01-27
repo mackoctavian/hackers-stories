@@ -1,71 +1,70 @@
-import React from 'react';
-
-
+import React from "react";
 
 function App() {
-
   const stories = [
     {
-      title: 'React',
+      title: "React",
       url: "https://reactjs.org",
-      author: 'Jordan Walke',
+      author: "Jordan Walke",
       num_comments: 3,
       points: 4,
-      objectID:0,
+      objectID: 0,
     },
     {
-      title: 'Redux',
+      title: "Redux",
       url: "https://redux.js.org",
-      author: 'Dan Abramov, Andrew Clark',
+      author: "Dan Abramov, Andrew Clark",
       num_comments: 3,
       points: 4,
-      objectID:1,
+      objectID: 1,
     },
   ];
-  
-  const [searchTerm, setSearchTearm] = React.useState('')
-  const handleSearch = event => {
-    setSearchTearm(event.target.value)
-  }
-  
-  const searchedStories = stories.filter(story => story.title.includes(searchTerm.toLocaleLowerCase()))
+
+  const [searchTerm, setSearchTearm] = React.useState('');
+  const handleSearch = (event) => {
+    setSearchTearm(event.target.value);
+  };
+
+  const searchedStories = stories.filter((story) =>
+    story.title.includes(searchTerm.toLocaleLowerCase())
+  );
 
   return (
     <div>
       <h1>My Hackers Stories</h1>
-      <Search onSearch={handleSearch}/>
+      <Search onSearch={handleSearch} search={searchTerm} />
       <hr></hr>
-      <List list={searchedStories}/>
+      <List list={searchedStories} />
     </div>
-  )
+  );
 }
 
-function List(props) {
+const List = ({list}) => {
   return (
     <div>
-      {
-        props.list.map(item => 
-          (<div key={item.objectID}>
-            <span><a href={item.url}>{item.title}</a></span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-          </div>
-          )
-        )
-      }
+      {list.map(({objectID,...item}) => <Item key={objectID} {...item}></Item>)}
     </div>
   )
 }
 
-const Search = props => {
+const Item = ({objectID, title, url, author, num_comments, points}) => {
+  return(
+    <div>
+      <span><a href={url}>{title}</a></span>
+      <span>{author}</span>
+      <span>{num_comments}</span>
+      <span>{points}</span>
+    </div>
+  )
+}
 
+const Search = ({ search, onSearch }) => {
   return (
     <div>
-    <label htmlFor='search'>Search: </label>
-    <input id='search' type='text' onChange={props.onSearch}></input>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" onChange={onSearch} value={search}></input>
     </div>
-  )
-}
+  );
+};
 
 export default App;
