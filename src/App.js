@@ -1,5 +1,16 @@
 import React from "react";
 
+
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setValue] = React.useState(localStorage.getItem('key') || initialState);
+
+  React.useEffect(() => {
+    localStorage.setItem('key', value)
+  }, [key, value])
+
+  return [value, setValue]
+} 
+
 function App() {
   const stories = [
     {
@@ -20,12 +31,9 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTearm] = React.useState(localStorage.getItem('search' || 'React'));
   
-  React.useEffect(() => {
-    localStorage.setItem('search', searchTerm)
-  }, [searchTerm])
-
+  const [searchTerm, setSearchTearm] = useSemiPersistentState('search', 'React');
+  
   const handleSearch = (event) => {
     setSearchTearm(event.target.value);
   };
@@ -37,7 +45,7 @@ function App() {
   return (
     <div>
       <h1>My Hackers Stories</h1>
-      <Search onSearch={handleSearch} search={searchTerm} />
+      <inputWithLabel id="search" label="search" value={searchTerm} onInputChange={handleSearch} type="text"></inputWithLabel>
       <hr></hr>
       <List list={searchedStories} />
     </div>
@@ -52,7 +60,7 @@ const List = ({list}) => {
   )
 }
 
-const Item = ({objectID, title, url, author, num_comments, points}) => {
+const Item = ({title, url, author, num_comments, points}) => {
   return(
     <div>
       <span><a href={url}>{title}</a></span>
@@ -63,11 +71,12 @@ const Item = ({objectID, title, url, author, num_comments, points}) => {
   )
 }
 
-const Search = ({ search, onSearch }) => {
+const inputWithLabel = ({ id,label,value, onInputChange }) => {
   return (
     <div>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={onSearch} value={search}></input>
+      <label htmlFor={id}>{label}</label>
+      &nbsp;
+      <input id={id} type={type} onChange={onInputChange} value={value}></input>
     </div>
   );
 };
